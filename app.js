@@ -1,7 +1,7 @@
 const express = require('express'); 
 const multer = require('multer');
-const path = require('path');
-
+// const path = require('path');
+const getColsAndTypes = require('./childProcess.js');
 
 const server = express(); 
 
@@ -38,8 +38,17 @@ server.get('/', (req, res, next) => {
 
 server.post('/upload', upload.single('data'), (req, res) => {
   
+  // console.log(req.file.filename);
 
-  res.send('working');
+  getColsAndTypes(req.file.filename).then((data) => {
+    console.log(data)
+    return 
+  }).then(() => {
+    res.send('working');
+  }).catch((err) => {
+    console.log(err);
+  })
+
 
 })
 
